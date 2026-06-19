@@ -1,0 +1,160 @@
+<div class="container" id="mainContainer">
+    <h1 id="title">🏥 HOSPITAL ABANDONADO 🏥</h1>
+
+    <div class="subtitle" id="subtitle">
+        Cuenta regresiva para el lanzamiento
+    </div>
+
+    <div id="countdown">Cargando...</div>
+
+    <div class="footer" id="footer">
+        Apertura: 19 de junio - 13:15 CL
+    </div>
+</div>
+
+<div id="launchScreen">
+
+    <h1 class="pixelTitle">
+        LAS PUERTAS YA ESTÁN ABIERTAS 🚪🏥
+    </h1>
+
+    <div class="doorContainer">
+
+        <div class="door leftDoor"></div>
+        <div class="door rightDoor"></div>
+
+    </div>
+
+</div>
+
+<style>
+
+#launchScreen{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#111;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.pixelTitle{
+    color:white;
+    font-size:clamp(2rem,5vw,4rem);
+    text-shadow:
+        4px 4px 0 #000,
+        0 0 20px red;
+    margin-bottom:50px;
+}
+
+.doorContainer{
+    width:220px;
+    height:260px;
+    position:relative;
+}
+
+.door{
+    position:absolute;
+    top:0;
+    width:110px;
+    height:260px;
+
+    background:
+    repeating-linear-gradient(
+        90deg,
+        #8b5a2b 0px,
+        #8b5a2b 10px,
+        #6f431f 10px,
+        #6f431f 20px
+    );
+
+    border:4px solid #222;
+}
+
+.leftDoor{
+    left:0;
+}
+
+.rightDoor{
+    right:0;
+}
+
+.open .leftDoor{
+    animation:openLeft 2s forwards;
+}
+
+.open .rightDoor{
+    animation:openRight 2s forwards;
+}
+
+@keyframes openLeft{
+    to{
+        transform:translateX(-120px);
+    }
+}
+
+@keyframes openRight{
+    to{
+        transform:translateX(120px);
+    }
+}
+
+</style>
+
+<script>
+
+const targetDate = new Date("2026-06-19T13:15:00");
+
+function launchHospital(){
+
+    document.getElementById("mainContainer").style.display="none";
+
+    const screen =
+        document.getElementById("launchScreen");
+
+    screen.style.display="flex";
+
+    document
+        .querySelector(".doorContainer")
+        .classList.add("open");
+}
+
+function updateCountdown(){
+
+    const now = new Date();
+
+    const diff = targetDate - now;
+
+    if(diff <= 0){
+
+        launchHospital();
+
+        return;
+    }
+
+    const days =
+        Math.floor(diff/(1000*60*60*24));
+
+    const hours =
+        Math.floor((diff%(1000*60*60*24))
+        /(1000*60*60));
+
+    const minutes =
+        Math.floor((diff%(1000*60*60))
+        /(1000*60));
+
+    const seconds =
+        Math.floor((diff%(1000*60))
+        /1000);
+
+    document.getElementById("countdown")
+    .innerHTML =
+    `${days}D ${hours}H ${minutes}M ${seconds}S`;
+}
+
+updateCountdown();
+
+setInterval(updateCountdown,1000);
+
+</script>
