@@ -1,123 +1,304 @@
-<div class="container" id="mainContainer">
-    <h1 id="title">🏥 HOSPITAL ABANDONADO 🏥</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <div class="subtitle" id="subtitle">
-        Cuenta regresiva para el lanzamiento
-    </div>
-
-    <div id="countdown">Cargando...</div>
-
-    <div class="footer" id="footer">
-        Apertura: 19 de junio - 13:15 CL
-    </div>
-</div>
-
-<div id="launchScreen">
-
-    <h1 class="pixelTitle">
-        LAS PUERTAS YA ESTÁN ABIERTAS 🚪🏥
-    </h1>
-
-    <div class="doorContainer">
-
-        <div class="door leftDoor"></div>
-        <div class="door rightDoor"></div>
-
-    </div>
-
-</div>
+<title>Hospital Abandonado</title>
 
 <style>
 
-#launchScreen{
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial, sans-serif;
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.75)
+    ),
+    url("hospital.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CONTENIDO PRINCIPAL */
+
+#countdownPage{
+    text-align:center;
+    width:95%;
+    max-width:1000px;
+}
+
+.title{
+    color:white;
+    font-size:clamp(2rem,7vw,5rem);
+    font-weight:bold;
+
+    text-shadow:
+        0 0 10px #000,
+        0 0 20px #000,
+        0 0 40px #000;
+
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#d8d8d8;
+    font-size:clamp(1rem,3vw,1.5rem);
+    letter-spacing:3px;
+}
+
+#countdown{
+    margin-top:25px;
+
+    color:#ff2222;
+
+    font-size:clamp(2.5rem,12vw,7rem);
+
+    font-weight:900;
+
+    text-shadow:
+        0 0 10px red,
+        0 0 20px red,
+        0 0 40px red,
+        0 0 80px red;
+
+    animation:pulse 1.4s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.05);
+    }
+}
+
+.footer{
+    color:#f0f0f0;
+    margin-top:25px;
+    font-size:1rem;
+}
+
+/* PANTALLA FINAL */
+
+#launchPage{
     display:none;
+
     position:fixed;
     inset:0;
-    background:#111;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.75),
+        rgba(0,0,0,.85)
+    ),
+    url("hospital.jpg");
+
+    background-size:cover;
+    background-position:center;
+
     justify-content:center;
     align-items:center;
     flex-direction:column;
 }
 
-.pixelTitle{
+.launchTitle{
     color:white;
-    font-size:clamp(2rem,5vw,4rem);
+
+    text-align:center;
+
+    font-size:clamp(2rem,8vw,5rem);
+
     text-shadow:
-        4px 4px 0 #000,
-        0 0 20px red;
-    margin-bottom:50px;
+        0 0 10px #000,
+        0 0 20px red,
+        0 0 40px red;
+
+    margin-bottom:40px;
 }
 
-.doorContainer{
-    width:220px;
-    height:260px;
+/* PUERTAS */
+
+.doorFrame{
+    width:260px;
+    height:280px;
     position:relative;
+    margin-bottom:40px;
 }
 
 .door{
     position:absolute;
     top:0;
-    width:110px;
-    height:260px;
+
+    width:130px;
+    height:280px;
 
     background:
     repeating-linear-gradient(
         90deg,
-        #8b5a2b 0px,
-        #8b5a2b 10px,
-        #6f431f 10px,
-        #6f431f 20px
+        #a36b34 0px,
+        #a36b34 12px,
+        #78451d 12px,
+        #78451d 24px
     );
 
-    border:4px solid #222;
+    border:5px solid #222;
 }
 
-.leftDoor{
+.left{
     left:0;
 }
 
-.rightDoor{
+.right{
     right:0;
 }
 
-.open .leftDoor{
-    animation:openLeft 2s forwards;
+.open .left{
+    animation:leftDoor 2s forwards;
 }
 
-.open .rightDoor{
-    animation:openRight 2s forwards;
+.open .right{
+    animation:rightDoor 2s forwards;
 }
 
-@keyframes openLeft{
+@keyframes leftDoor{
     to{
-        transform:translateX(-120px);
+        transform:translateX(-150px);
     }
 }
 
-@keyframes openRight{
+@keyframes rightDoor{
     to{
-        transform:translateX(120px);
+        transform:translateX(150px);
     }
+}
+
+/* BOTÓN */
+
+.enterBtn{
+
+    display:none;
+
+    text-decoration:none;
+
+    background:#28a745;
+
+    color:white;
+
+    padding:18px 40px;
+
+    border-radius:12px;
+
+    font-size:1.3rem;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 0 20px #28a745;
+
+    transition:.2s;
+}
+
+.enterBtn:hover{
+    transform:scale(1.05);
+}
+
+.showButton{
+    display:inline-block;
 }
 
 </style>
+</head>
+<body>
+
+<div id="countdownPage">
+
+    <div class="title">
+        HOSPITAL ABANDONADO
+    </div>
+
+    <div class="subtitle">
+        APERTURA EN
+    </div>
+
+    <div id="countdown">
+        CARGANDO...
+    </div>
+
+    <div class="footer">
+        19 de junio · 13:15 CL
+    </div>
+
+</div>
+
+<div id="launchPage">
+
+    <div class="launchTitle">
+        LAS PUERTAS YA ESTÁN ABIERTAS 🚪🏥
+    </div>
+
+    <div class="doorFrame">
+
+        <div class="door left"></div>
+
+        <div class="door right"></div>
+
+    </div>
+
+    <a href="minecraft://"
+       class="enterBtn"
+       id="enterBtn">
+
+       ► ENTRAR
+
+    </a>
+
+</div>
 
 <script>
 
-const targetDate = new Date("2026-06-19T13:15:00");
+/*
+CAMBIA LA FECHA SI QUIERES OTRA
+*/
+
+const targetDate =
+new Date("2026-06-19T13:15:00");
 
 function launchHospital(){
 
-    document.getElementById("mainContainer").style.display="none";
+    document
+        .getElementById("countdownPage")
+        .style.display="none";
 
-    const screen =
-        document.getElementById("launchScreen");
+    const launch =
+        document.getElementById("launchPage");
 
-    screen.style.display="flex";
+    launch.style.display="flex";
 
     document
-        .querySelector(".doorContainer")
+        .querySelector(".doorFrame")
         .classList.add("open");
+
+    setTimeout(()=>{
+
+        document
+            .getElementById("enterBtn")
+            .classList.add("showButton");
+
+    },2000);
 }
 
 function updateCountdown(){
@@ -134,23 +315,21 @@ function updateCountdown(){
     }
 
     const days =
-        Math.floor(diff/(1000*60*60*24));
+        Math.floor(diff/86400000);
 
     const hours =
-        Math.floor((diff%(1000*60*60*24))
-        /(1000*60*60));
+        Math.floor((diff%86400000)/3600000);
 
     const minutes =
-        Math.floor((diff%(1000*60*60))
-        /(1000*60));
+        Math.floor((diff%3600000)/60000);
 
     const seconds =
-        Math.floor((diff%(1000*60))
-        /1000);
+        Math.floor((diff%60000)/1000);
 
-    document.getElementById("countdown")
-    .innerHTML =
-    `${days}D ${hours}H ${minutes}M ${seconds}S`;
+    document
+        .getElementById("countdown")
+        .innerHTML =
+        `${days}D ${hours}H ${minutes}M ${seconds}S`;
 }
 
 updateCountdown();
@@ -158,3 +337,6 @@ updateCountdown();
 setInterval(updateCountdown,1000);
 
 </script>
+
+</body>
+</html>
