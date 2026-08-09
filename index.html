@@ -1,166 +1,483 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>¿Una segunda vez?</title>
+    <title>EL FINAL</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
-    overflow:hidden;
-    color:white;
-}
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow: hidden;
 
-.background{
-    position:fixed;
-    inset:0;
-    background:url("https://i.imgur.com/875LyNx.png") center center/cover no-repeat;
-    filter:brightness(45%);
-    z-index:-2;
-}
+            font-family: "Trebuchet MS", Arial, sans-serif;
 
-.overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.35);
-    z-index:-1;
-}
+            background:
+                linear-gradient(rgba(0,0,80,0.15), rgba(0,0,80,0.15)),
+                url("fondo.jpg");
 
-.container{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-}
+            background-size: cover;
+            background-position: center;
 
-.subtitle{
-    font-size:22px;
-    letter-spacing:5px;
-    opacity:.75;
-    margin-bottom:25px;
-    text-transform:uppercase;
-}
+            color: white;
+        }
 
-h1{
-    font-size:58px;
-    font-weight:300;
-    text-shadow:0 0 15px black;
-    margin-bottom:45px;
-}
+        /* EFECTO VHS */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
 
-#countdown{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    justify-content:center;
-}
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.035) 0px,
+                    rgba(255,255,255,0.035) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
 
-.box{
-    background:rgba(0,0,0,.45);
-    border:1px solid rgba(255,255,255,.15);
-    backdrop-filter:blur(3px);
-    padding:18px;
-    min-width:95px;
-}
+            mix-blend-mode: screen;
+        }
 
-.number{
-    font-size:42px;
-    font-weight:bold;
-}
+        /* VIÑETA */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 19;
 
-.label{
-    font-size:12px;
-    letter-spacing:2px;
-    opacity:.7;
-    margin-top:5px;
-}
-</style>
+            background: radial-gradient(
+                circle,
+                transparent 45%,
+                rgba(0,0,0,0.55) 100%
+            );
+        }
 
+        .contenedor {
+            position: relative;
+            z-index: 5;
+
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            padding: 20px;
+        }
+
+        .windows {
+            background: #eeeeee;
+            color: #111;
+
+            width: min(720px, 94vw);
+
+            border: 3px solid #003399;
+
+            box-shadow:
+                8px 8px 0 rgba(0,0,0,0.5),
+                0 0 35px rgba(0,0,255,0.5);
+
+            transform: rotate(-0.4deg);
+        }
+
+        .barra {
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 10px;
+
+            color: white;
+
+            font-weight: bold;
+            font-size: 15px;
+
+            background: linear-gradient(
+                #2775e8,
+                #0645b8
+            );
+
+            text-shadow: 1px 1px #00306b;
+        }
+
+        .botones {
+            margin-left: auto;
+
+            display: flex;
+            gap: 4px;
+        }
+
+        .boton {
+            width: 20px;
+            height: 20px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #d8e5ff;
+            color: #003399;
+
+            border: 2px outset white;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .contenido {
+            padding: 35px 25px 40px;
+        }
+
+        .mini {
+            font-family: monospace;
+
+            font-size: 13px;
+
+            color: #333;
+
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(50px, 11vw, 100px);
+
+            letter-spacing: 5px;
+
+            color: #ff0055;
+
+            text-shadow:
+                4px 4px 0 #00ffff,
+                -3px -3px 0 #ffff00;
+
+            animation: glitch 1.5s infinite;
+        }
+
+        .subtitulo {
+            margin-top: 10px;
+
+            font-family: monospace;
+
+            font-size: 15px;
+
+            color: #222;
+        }
+
+        .contador {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-top: 30px;
+
+            flex-wrap: wrap;
+        }
+
+        .unidad {
+            min-width: 105px;
+
+            padding: 15px 10px;
+
+            background: #0000aa;
+
+            color: white;
+
+            border: 4px outset #ffffff;
+
+            box-shadow: 4px 4px 0 #222;
+        }
+
+        .numero {
+            display: block;
+
+            font-family: "Courier New", monospace;
+
+            font-size: 40px;
+            font-weight: bold;
+
+            color: #ffff00;
+
+            text-shadow: 2px 2px #ff00ff;
+        }
+
+        .etiqueta {
+            font-size: 12px;
+
+            margin-top: 5px;
+
+            letter-spacing: 2px;
+        }
+
+        .mensaje {
+            margin-top: 30px;
+
+            font-family: monospace;
+
+            font-size: 13px;
+
+            color: #222;
+
+            animation: parpadeo 2s infinite;
+        }
+
+        /* PANTALLA FINAL */
+
+        #final {
+            display: none;
+        }
+
+        #final h1 {
+            color: #ff0000;
+
+            font-size: clamp(60px, 14vw, 130px);
+
+            text-shadow:
+                5px 5px 0 #000,
+                -3px -3px 0 #00ffff;
+        }
+
+        .final-texto {
+            font-family: monospace;
+
+            font-size: 16px;
+
+            margin-top: 15px;
+
+            color: #111;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% {
+                transform: translate(0);
+            }
+
+            92% {
+                transform: translate(5px, -2px);
+            }
+
+            94% {
+                transform: translate(-5px, 2px);
+            }
+
+            96% {
+                transform: translate(3px, 0);
+            }
+        }
+
+        @keyframes parpadeo {
+            0%, 45%, 55%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .windows {
+                width: 95vw;
+            }
+
+            .contenido {
+                padding: 25px 15px 30px;
+            }
+
+            .unidad {
+                min-width: 75px;
+            }
+
+            .numero {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="background"></div>
-<div class="overlay"></div>
+    <div class="contenedor">
 
-<div class="container">
+        <!-- CUENTA REGRESIVA -->
 
-<div class="subtitle">
-No hay elección
-</div>
+        <div class="windows" id="cuenta">
 
-<h1>
-¿Una segunda vez?
-</h1>
+            <div class="barra">
+                █ ARCHIVO_FINAL.exe
 
-<div id="countdown">
+                <div class="botones">
+                    <div class="boton">_</div>
+                    <div class="boton">□</div>
+                    <div class="boton">X</div>
+                </div>
+            </div>
 
-<div class="box">
-<div id="days" class="number">00</div>
-<div class="label">DÍAS</div>
-</div>
+            <div class="contenido">
 
-<div class="box">
-<div id="hours" class="number">00</div>
-<div class="label">HORAS</div>
-</div>
+                <div class="mini">
+                    SYSTEM://BACKROOMS/FINAL_ARCHIVE
+                </div>
 
-<div class="box">
-<div id="minutes" class="number">00</div>
-<div class="label">MINUTOS</div>
-</div>
+                <h1>EL FINAL</h1>
 
-<div class="box">
-<div id="seconds" class="number">00</div>
-<div class="label">SEGUNDOS</div>
-</div>
+                <div class="subtitulo">
+                    EL ARCHIVO SERÁ ABIERTO EN:
+                </div>
 
-</div>
+                <div class="contador">
 
-</div>
+                    <div class="unidad">
+                        <span class="numero" id="dias">00</span>
+                        <span class="etiqueta">DÍAS</span>
+                    </div>
 
-<script>
+                    <div class="unidad">
+                        <span class="numero" id="horas">00</span>
+                        <span class="etiqueta">HORAS</span>
+                    </div>
 
-const targetDate = new Date("2026-07-04T11:20:00-04:00").getTime();
+                    <div class="unidad">
+                        <span class="numero" id="minutos">00</span>
+                        <span class="etiqueta">MIN</span>
+                    </div>
 
-function updateCountdown(){
+                    <div class="unidad">
+                        <span class="numero" id="segundos">00</span>
+                        <span class="etiqueta">SEG</span>
+                    </div>
 
-const now = new Date().getTime();
-const distance = targetDate-now;
+                </div>
 
-if(distance<=0){
+                <div class="mensaje">
+                    ⚠ NO CIERRE ESTA VENTANA ⚠
+                    <br><br>
+                    DESTINO: 10/08/2026 — 00:00
+                </div>
 
-document.getElementById("countdown").innerHTML="<h2>EL TIEMPO HA TERMINADO</h2>";
-return;
+            </div>
+        </div>
 
-}
 
-const days=Math.floor(distance/(1000*60*60*24));
-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds=Math.floor((distance%(1000*60))/1000);
+        <!-- MENSAJE QUE APARECE CUANDO LLEGA EL MOMENTO -->
 
-document.getElementById("days").textContent=String(days).padStart(2,"0");
-document.getElementById("hours").textContent=String(hours).padStart(2,"0");
-document.getElementById("minutes").textContent=String(minutes).padStart(2,"0");
-document.getElementById("seconds").textContent=String(seconds).padStart(2,"0");
+        <div class="windows" id="final">
 
-}
+            <div class="barra">
+                █ SYSTEM_ERROR.exe
+            </div>
 
-updateCountdown();
-setInterval(updateCountdown,1000);
+            <div class="contenido">
 
-</script>
+                <div class="mini">
+                    SYSTEM://CONNECTION_TERMINATED
+                </div>
+
+                <h1>EL FINAL</h1>
+
+                <div class="final-texto">
+                    EL ARCHIVO HA SIDO ABIERTO.
+                    <br><br>
+                    YA NO HAY NADA MÁS QUE MOSTRAR.
+                    <br><br>
+                    ¿O SÍ?
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /*
+        ==========================================
+        FECHA FINAL
+        LUNES 10 DE AGOSTO DE 2026
+        00:00:00
+        HORA DE CHILE
+        ==========================================
+        */
+
+        const fechaFinal = new Date(
+            "2026-08-10T00:00:00-04:00"
+        ).getTime();
+
+
+        function actualizar() {
+
+            const ahora = new Date().getTime();
+
+            const diferencia = fechaFinal - ahora;
+
+
+            // CUANDO LLEGA EL 10 DE AGOSTO
+            if (diferencia <= 0) {
+
+                document.getElementById("cuenta").style.display = "none";
+
+                document.getElementById("final").style.display = "block";
+
+                return;
+            }
+
+
+            const dias = Math.floor(
+                diferencia / (1000 * 60 * 60 * 24)
+            );
+
+            const horas = Math.floor(
+                (diferencia / (1000 * 60 * 60)) % 24
+            );
+
+            const minutos = Math.floor(
+                (diferencia / (1000 * 60)) % 60
+            );
+
+            const segundos = Math.floor(
+                (diferencia / 1000) % 60
+            );
+
+
+            document.getElementById("dias").textContent =
+                String(dias).padStart(2, "0");
+
+            document.getElementById("horas").textContent =
+                String(horas).padStart(2, "0");
+
+            document.getElementById("minutos").textContent =
+                String(minutos).padStart(2, "0");
+
+            document.getElementById("segundos").textContent =
+                String(segundos).padStart(2, "0");
+        }
+
+
+        actualizar();
+
+        setInterval(actualizar, 1000);
+
+    </script>
 
 </body>
 </html>
